@@ -1,0 +1,11 @@
+# Gradle
+.gradle/
+build/
+
+# IntelliJ
+.idea/
+*.iml
+out/
+
+# JetBrains-Academy-Metadaten (Hyperskill-IDs)
+*-remote-info.yaml
