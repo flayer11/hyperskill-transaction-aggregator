@@ -9,3 +9,9 @@ out/
 
 # JetBrains-Academy-Metadaten (Hyperskill-IDs)
 *-remote-info.yaml
+
+# JetBrains Academy plugin metadata
+course-info.yaml
+**/lesson-info.yaml
+**/task-info.yaml
+**/task.html
