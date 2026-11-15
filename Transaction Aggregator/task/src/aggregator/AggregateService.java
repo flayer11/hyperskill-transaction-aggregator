@@ -1,7 +1,9 @@
 package aggregator;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -18,7 +20,11 @@ import java.util.concurrent.CompletableFuture;
 @Service
 public class AggregateService {
     private static final ParameterizedTypeReference<List<Account>> ACCOUNT_LIST = new ParameterizedTypeReference<List<Account>>() {};
+    private final AsyncTaskExecutor asyncTaskExecutor;
 
+    public AggregateService(@Qualifier("applicationTaskExecutor") AsyncTaskExecutor asyncTaskExecutor){
+        this.asyncTaskExecutor = asyncTaskExecutor;
+    }
 
     public List<Account> processBody(List<Account>... accountLists) {
         return Arrays.stream(accountLists)
@@ -52,6 +58,6 @@ public class AggregateService {
 
                     throw new HttpServerErrorException(HttpStatusCode.valueOf(500));
 
-                });
+                }, this.asyncTaskExecutor);
     }
 }
